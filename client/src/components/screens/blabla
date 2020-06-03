@@ -1,0 +1,59 @@
+class App extends Component{
+
+        state = {
+            countries:[]
+        }
+
+        addCountry(){
+            this.setState({countries: [...this.state.countries, ""]})
+        }
+        handleChange(e, index) {
+            this.state.countries[index] = e.target.value
+
+            //set the changed state...
+            this.setState({countries: this.state.countries})
+        }
+        handleRemove(index){
+            //remove an item at the index
+            this.state.countries.splice(index,1)
+
+            console.log(this.state.countries, "$$$$");
+
+            //update the state
+            this.setState({countries: this.state.countries})
+        }
+        handleSubmit(e){
+            console.log(this.state, "$$$$");
+        }
+    }
+    
+
+    return (
+
+         <div className="App">
+            <h1>the form</h1>
+
+            <label>adress</label>
+            {
+                this.state.countries.map((country,index)=>{
+                    return (
+                        <div key={index}>
+                            <input conChange={(e)=>this.handleChange(e, index)}
+                            value={country} />
+
+                            <button onClick={()=>this.handleRemove(index)}>Remove</button>
+                        </div>
+                    )
+                })
+            }
+
+            <hr />
+
+            <button onClick={(e)=>this.addCountry(e)} >add country</button>
+
+            <hr />
+
+            <button onClick={(e)=>this.handleSubmit(e)}>submit</button>
+
+            </div>
+    )

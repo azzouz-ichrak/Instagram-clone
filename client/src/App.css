@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap');
+a{
+  color: black !important;
+}
+
+.brand-logo,h2{
+  font-family: 'Grand Hotel', cursive;
+}
+.mycard{
+  margin-top: 30px;
+}
+.auth-card{
+  margin: 10px auto;
+  padding: 20px;
+  text-align: center;
+  max-width: 400px;
+}
+/* label underline focus color */
+.input-field input[type=text]:focus {
+  border-bottom: 1px solid rgb(4, 160, 250) !important;
+  box-shadow: 0 1px 0 0 rgb(4, 160, 250) !important;
+}
+
+.gallery{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+.item{
+  width: 30%;
+}
+
+.home-card{
+  margin:26px auto;
+
+  max-width: 500px;
+  height: max-content;
+}
+
+#toast-container{
+  top:30px !important;
+  right: 20px !important;
+  left: auto !important;
+}
+#prod{
+  color: rgb(112, 61, 61);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.produits{
+  height: 100px;
+  width: 100px;
+  background-color: antiquewhite;
+}
