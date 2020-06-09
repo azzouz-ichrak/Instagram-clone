@@ -2,6 +2,7 @@ import React,{useState,useContext}from 'react';
 import {Link,useHistory} from 'react-router-dom'
 import {UserContext} from '../../App'
 import M from 'materialize-css'
+import imgSingup from './img/imgSignup.png'
 
 
 const Login = ()=>{
@@ -42,8 +43,8 @@ const Login = ()=>{
         })
     }
     return(
-        <div className="mycard">
-            <div className="card auth-card input-field">
+        <div className="form" id="form">
+            <div className="form input-field">
                 <h2>Anti-Gaspillage</h2>
                 <input type="text" 
                 placeholder="email" 
@@ -62,6 +63,9 @@ const Login = ()=>{
                 <Link to="/signup">don't have an account ?</Link>
             </h5>
          </div>
+         <div>
+                <img className="img" src={imgSingup} alt="imgSingup"/>
+            </div>
         </div>
     )
 }

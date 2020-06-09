@@ -1,153 +1,118 @@
-import React,{useState,useEffect} from 'react'
-import {Link,useHistory} from 'react-router-dom'
-import M from 'materialize-css'
+import React, { Component } from 'react';
+import StepOne from './FormStepOne'
+import StepTwo from './FormStepTwo'
+import imgSingup from './img/imgSignup.png'
+import {Link} from 'react-router-dom'
+import AllInfo from './FormStepFinal'
 
-const Signup = ()=>{
-    const history = useHistory()
-    const [name,setName] = useState("")
-    const [password,setPassword] = useState("")
-    const [email,setEmail] = useState("")
-    const [phone,setPhone] = useState("")
-    const [photo,setPhoto] = useState("")
-    const [url,setUrl] = useState("")
 
-    useEffect(()=>{
-        if(url) {
-        fetch("/signup",{
-            method:"post",
-            headers:{
-                "Content-Type":"application/json",
-            },
-            body:JSON.stringify({
-                name,
-                password,
-                email,
-                phone,
-                photo:url
-            })
-        }).then(res=>res.json())
-    .then(data=>{
-       // console.log(data)
-        if(data.error){
-            M.toast({html: data.error,classes:"#c62828 red darken-3"})
-        }
-        else{
-            M.toast({html:"created post success",classes:"#388e3c green darken-2"})
-            history.push('/')
 
-        }
-    }).catch(err=>{
-        console.log(err)
-    })
-}
-    },[url])
+class Signup extends Component {
+    constructor(props){
+        super(props)
+        this.state={
+                step: 1,
+                //  step1
+                nomCom: '',
+                numRegistre: '',
+                email: '',
+                typeCom: '',
+                password: '',
 
-    const PostData = ()=>{
-        const data = new FormData()
-        data.append("file",photo)
-        data.append("upload_preset","insta-clone")
-        data.append("cloud_name","dyug1pvey")
-        //j8KvBG9tUBv26fSm5c6p2b1zPBY
-      //  CLOUDINARY_URL=cloudinary://478786371484157:j8KvBG9tUBv26fSm5c6p2b1zPBY@dyug1pvey
-        fetch("https://api.cloudinary.com/v1_1/dyug1pvey/image/upload",{
-            method:"post",
-            body:data
-        })
-        .then(res=>res.json())
-        .then(data=>{
-           setUrl(data.url)
-        })
-        .catch(err=>{
-            console.log(err)
-        })
- 
+                //  step 2
+                nomResponsable: '',
+                telephone: '',
+                adresse: '',
+                siteweb: '',
+                logo: '',
+                description: ''
+
+    }}
+
+    nextStep = () => {
+        const {step} = this.state;
+        this.setState({
+            step: step + 1
+        });
+    }
+
+    prevStep = () => {
+        const {step} = this.state;
+        this.setState({
+            step: step - 1
+        });
     }
 
 
-
-   /* const PostData = ()=>{
-        if(!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)){
-             M.toast({html:"invalid email",classes:"#c62828 red darken-3"})
-             return
-        }
-        fetch("http://localhost:3000/signup",{
-            method:"post",
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body:JSON.stringify({
-                name,
-                password,
-                email,
-                phone,
-                photo
-            })
-        }).then(res=>res.json())
-        .then(data=>{
-            if(data.error){
-                M.toast({html: data.error,classes:"#c62828 red darken-3"})
-            }
-            else{
-                M.toast({html:data.message,classes:"#388e3c green darken-2"})
-                history.push('/login')
-
-            }
-        }).catch(err=>{
-            console.log(err)
-        })
+    handleChange = input => e => {
+        this.setState({[input]: e.target.value});
     }
-    */
+    
 
-    return(
-        <div className="mycard">
-            <div className="card auth-card input-field">
-                <h2>anti-gaspillage</h2>
-                <input type="text" 
-                placeholder="name" 
-                value={name} 
-                onChange={(e)=>setName(e.target.value)} />
+    showStep = () => {
+        const { step, nomCom, numRegistre, email, typeCom, password, nomResponsable, telephone, adresse, siteweb, logo, description } = this.state;
+        if(step === 1)
+           return( 
+           <StepOne 
+                handleChange = {this.handleChange}
+                nextStep = {this.nextStep}
+                nomCom = {nomCom}
+                numRegistre = {numRegistre}
+                email = {email}
+                typeCom = {typeCom}
+                password = {password}
+           /> );
+        if(step === 2)
+        return(
+            <StepTwo 
+            handleChange = {this.handleChange}
+            nextStep = {this.nextStep}
+            prevStep = {this.prevStep}
+            nomResponsable = {nomResponsable}
+            telephone = {telephone}
+            adresse = {adresse}
+            siteweb = {siteweb}
+            logo = {logo}
+            description = {description}
 
-                <input type="text" 
-                placeholder="email" 
-                value={email} 
-                onChange={(e)=>setEmail(e.target.value)} />
+            />
+        )
+        if(step === 3)
+        return(
+           <AllInfo 
+            nomCom = {nomCom}
+            numRegistre = {numRegistre}
+            email = {email}
+            typeCom = {typeCom}
+            password = {password}
+            nomResponsable = {nomResponsable}
+            telephone = {telephone}
+            adresse = {adresse}
+            siteweb = {siteweb}
+            logo = {logo}
+            description = {description}
+            prevStep = {this.prevStep}
+           /> 
+        )
+    }
 
-                <input type="password" 
-                placeholder="password" 
-                value={password} 
-                onChange={(e)=>setPassword(e.target.value)} />
-
-                <input type="text" 
-                placeholder="phone" 
-                value={phone} 
-                onChange={(e)=>setPhone(e.target.value)} />
-
-                <div className="file-field input-field">
-                <div className="btn #64b5f6 blue darken-1">
-                    <span>Upload image</span>
-                    <input type="file" 
-                    
-                    onChange={(e)=>setPhoto(e.target.files[0])} 
-                     />
+    render(){
+        const {step} = this.state;
+        return(
+            <div className="form" id="form">
+                <div>
+                    <img className="img" src={imgSingup} alt="imgSingup"/>
+                    </div>
+                <div className="form input-field">
+                    <h2>anti-gaspillage</h2>
+                    <h6>Step {step} of 2.</h6>
+                    {this.showStep()}
+                    <h5><Link to="/login">Already have an account ?</Link>
+                     </h5>
                 </div>
-                <div className="file-path-wrapper">
-                    <input className="file-path validate"
-                    type="text" />
-                </div>
-                </div>
-
-
-                <button className="btn waves-effect waves-light #64b5f6 blue lighten-2" 
-                onClick={()=>PostData()} 
-                 >SignUP </button>
-            <h5>
-                <Link to="/login">Already have an account ?</Link>
-            </h5>
-
-
-         </div>
-        </div>
-    )
+            </div>
+        )
+    }
 }
 
 export default Signup

@@ -6,21 +6,45 @@ a{
 .brand-logo,h2{
   font-family: 'Grand Hotel', cursive;
 }
-.mycard{
-  margin-top: 30px;
+
+@import '~antd/dist/antd.css';
+
+* {
+    box-sizing: border-box;
+    margin-left: 10px;
+    max-width: 90%;
 }
-.auth-card{
-  margin: 10px auto;
-  padding: 20px;
-  text-align: center;
-  max-width: 400px;
+
+/* form login + Signup */
+
+#form{
+  margin-left: 20px;
+  margin-right: 20px;
+  background-color: antiquewhite;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 600px;
+}
+.form .img{
+  min-width: 400px;
+  width: 749px;
+  height: auto;
 }
 /* label underline focus color */
+.form .input-field {
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 540px;
+  text-align: center;
+  height: auto;
+}
 .input-field input[type=text]:focus {
   border-bottom: 1px solid rgb(4, 160, 250) !important;
   box-shadow: 0 1px 0 0 rgb(4, 160, 250) !important;
 }
-
+/*****---------------------------------------------------------**/
 .gallery{
   display: flex;
   flex-wrap: wrap;
@@ -28,13 +52,6 @@ a{
 }
 .item{
   width: 30%;
-}
-
-.home-card{
-  margin:26px auto;
-
-  max-width: 500px;
-  height: max-content;
 }
 
 #toast-container{

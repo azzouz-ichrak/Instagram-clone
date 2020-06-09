@@ -1,11 +1,11 @@
 const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
-const User = mongoose.model("User")
+const Commercant = mongoose.model("Commercant")
 const bcrypt = require("bcryptjs")
 const jwt = require('jsonwebtoken')
 const {JWT_SECRET} = require('../keys')
-const requireLogin = require('../middleware/requireLogin')
+//const requireLogin = require('../middleware/requireLogin')
 
 router.get('/',(req,res)=>{
     res.send("hello")
@@ -14,26 +14,32 @@ router.get('/',(req,res)=>{
 
 
 router.post('/signup',(req,res)=>{
-  const {name,email,password,phone,photo} = req.body
-  if(!email || !password || !name || !phone || !photo){
+  const {nomCom, numRegistre, email, typeCom, password, nomResponsable, telephone, adresse, siteweb, logo, description} = req.body
+  if( !nomCom || !numRegistre || !email || !typeCom || !password || !nomResponsable || !telephone || !adresse || !siteweb || !logo || !description){
      return res.status(422).json({error:"please add all the fiels"})
     }
-User.findOne({email:email})
-.then((savedUser)=>{
-    if(savedUser){
-        return res.status(422).json({error:"user already exists with that email"})
+Commercant.findOne({email:email})
+.then((savedCommercant)=>{
+    if(savedCommercant){
+        return res.status(422).json({error:"commercant already exists with that email"})
     }
     bcrypt.hash(password,12)
         .then(hashedpassword=>{
-            const user = new User({
-                email,
-                password:hashedpassword,
-                name,
-                phone,
-                photo
+            const commercant = new Commercant({
+                nomCom, 
+                numRegistre, 
+                email, 
+                typeCom, 
+                password, 
+                nomResponsable, 
+                telephone, 
+                adresse, 
+                siteweb, 
+                logo, 
+                description
             })
-            user.save()
-            .then(user=>{
+            commercant.save()
+            .then(commercant=>{
                 res.json({message:"saved successfuly!!"})
             })
             .catch(err=>{
@@ -53,18 +59,18 @@ router.post('/signin',(req,res)=>{
     if(!email || !password){
        return res.status(422).json({err:"please add email or psw"})
     }
-    User.findOne({email:email})
-    .then(savedUser=>{
-        if(!savedUser){
+    Commercant.findOne({email:email})
+    .then(savedCommercant=>{
+        if(!savedCommercant){
             return res.status(422).json({err:"invalid email or password"})
         }
-        bcrypt.compare(password,savedUser.password)
+        bcrypt.compare(password,savedCommercant.password)
         .then(doMatch=>{
             if(doMatch){
                 //res.json({message:"successfully signed in"})
-                const token = jwt.sign({_id:savedUser._id},JWT_SECRET)
-                const {_id,name,email} = savedUser
-                res.json({token,user:{_id,name,email}})
+                const token = jwt.sign({_id:savedCommercant._id},JWT_SECRET)
+                const {_id,nomResponsable,email} = savedCommercant
+                res.json({token,commercant:{_id,nomResponsable,email}})
             }
             else{
                 return res.status(422).json({err:"invalid email or password"})

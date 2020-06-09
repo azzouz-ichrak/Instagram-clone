@@ -18,6 +18,7 @@ mongoose.connection.on('error',()=>{
 })
 
 require('./models/user')
+require('./models/commercant')
 require('./models/post')
 require('./models/product')
 require('./models/category')
